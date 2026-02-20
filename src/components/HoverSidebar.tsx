@@ -9,11 +9,12 @@ import {
   Zap,
 } from "lucide-react";
 import { macros, categories } from "@/data/macros";
-import { initialMessages, type FlagType, flagLabels, type TeamMessage } from "@/data/messages";
+import { type FlagType, flagLabels } from "@/data/messages";
 import MacroCard from "./MacroCard";
 import MessageCard from "./MessageCard";
 import FlagBadge from "./FlagBadge";
 import { cn } from "@/lib/utils";
+import { useTeamMessages } from "@/hooks/useTeamMessages";
 
 type Tab = "macros" | "messages";
 
@@ -22,7 +23,7 @@ const HoverSidebar = () => {
   const [tab, setTab] = useState<Tab>("macros");
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [messages, setMessages] = useState<TeamMessage[]>(initialMessages);
+  const { messages, sendMessage } = useTeamMessages();
   const [newMessage, setNewMessage] = useState("");
   const [newFlag, setNewFlag] = useState<FlagType>("medium");
   const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
@@ -47,16 +48,7 @@ const HoverSidebar = () => {
 
   const handleSendMessage = () => {
     if (!newMessage.trim()) return;
-    const msg: TeamMessage = {
-      id: String(Date.now()),
-      author: "Você",
-      avatar: "VC",
-      content: newMessage.trim(),
-      flag: newFlag,
-      timestamp: new Date(),
-      read: true,
-    };
-    setMessages((prev) => [msg, ...prev]);
+    sendMessage(newMessage.trim(), newFlag);
     setNewMessage("");
   };
 
