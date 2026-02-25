@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { MessageSquare, Zap, Users, Clock, CheckCircle, TrendingUp } from "lucide-react";
+import { MessageSquare, Zap, Users, Clock, CheckCircle, TrendingUp, CalendarDays, BookOpen, Target } from "lucide-react";
 import HoverSidebar from "@/components/HoverSidebar";
 import WorkspaceSwitcher from "@/components/WorkspaceSwitcher";
 import { useAuth } from "@/hooks/useAuth";
@@ -84,6 +84,31 @@ const Index = () => {
                   </p>
                 )}
               </div>
+            ))}
+          </div>
+
+          {/* Quick access to dashboard */}
+          <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            {[
+              { label: "Escalas", desc: "Calendário semanal de agentes", icon: CalendarDays, tab: "schedule" },
+              { label: "Base de Conhecimento", desc: "Orientações internas e macros", icon: BookOpen, tab: "knowledge" },
+              { label: "Plano de Ação", desc: "Tickets e progresso em tempo real", icon: Target, tab: "action-plan" },
+            ].map((item) => (
+              <button
+                key={item.tab}
+                onClick={() => navigate(`/dashboard?tab=${item.tab}`)}
+                className="group rounded-lg border border-border bg-card p-5 text-left hover:border-primary/30 hover:glow-accent sidebar-transition"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="rounded-lg bg-secondary p-2.5 text-muted-foreground group-hover:bg-primary/20 group-hover:text-primary sidebar-transition">
+                    <item.icon className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-foreground">{item.label}</p>
+                    <p className="text-xs text-muted-foreground">{item.desc}</p>
+                  </div>
+                </div>
+              </button>
             ))}
           </div>
 

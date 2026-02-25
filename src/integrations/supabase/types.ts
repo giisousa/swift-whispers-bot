@@ -14,6 +14,249 @@ export type Database = {
   }
   public: {
     Tables: {
+      action_plan_items: {
+        Row: {
+          agent_name: string
+          agent_user_id: string
+          created_at: string
+          goal: string | null
+          id: string
+          notes: string | null
+          plan_id: string
+          ticket_count: number
+          tickets_completed: number
+          updated_at: string
+          workspace_id: string
+        }
+        Insert: {
+          agent_name?: string
+          agent_user_id: string
+          created_at?: string
+          goal?: string | null
+          id?: string
+          notes?: string | null
+          plan_id: string
+          ticket_count?: number
+          tickets_completed?: number
+          updated_at?: string
+          workspace_id: string
+        }
+        Update: {
+          agent_name?: string
+          agent_user_id?: string
+          created_at?: string
+          goal?: string | null
+          id?: string
+          notes?: string | null
+          plan_id?: string
+          ticket_count?: number
+          tickets_completed?: number
+          updated_at?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "action_plan_items_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "action_plans"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "action_plan_items_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      action_plans: {
+        Row: {
+          created_at: string
+          created_by: string
+          id: string
+          name: string
+          status: Database["public"]["Enums"]["plan_status"]
+          updated_at: string
+          workspace_id: string
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          id?: string
+          name: string
+          status?: Database["public"]["Enums"]["plan_status"]
+          updated_at?: string
+          workspace_id: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          id?: string
+          name?: string
+          status?: Database["public"]["Enums"]["plan_status"]
+          updated_at?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "action_plans_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      agent_schedules: {
+        Row: {
+          agent_user_id: string
+          assigned_by: string | null
+          channel: Database["public"]["Enums"]["channel_type"]
+          created_at: string
+          date: string
+          id: string
+          is_online: boolean
+          shift: Database["public"]["Enums"]["shift_type"]
+          status: Database["public"]["Enums"]["schedule_status"]
+          suggested_by: string | null
+          updated_at: string
+          workspace_id: string
+        }
+        Insert: {
+          agent_user_id: string
+          assigned_by?: string | null
+          channel: Database["public"]["Enums"]["channel_type"]
+          created_at?: string
+          date: string
+          id?: string
+          is_online?: boolean
+          shift: Database["public"]["Enums"]["shift_type"]
+          status?: Database["public"]["Enums"]["schedule_status"]
+          suggested_by?: string | null
+          updated_at?: string
+          workspace_id: string
+        }
+        Update: {
+          agent_user_id?: string
+          assigned_by?: string | null
+          channel?: Database["public"]["Enums"]["channel_type"]
+          created_at?: string
+          date?: string
+          id?: string
+          is_online?: boolean
+          shift?: Database["public"]["Enums"]["shift_type"]
+          status?: Database["public"]["Enums"]["schedule_status"]
+          suggested_by?: string | null
+          updated_at?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_schedules_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      knowledge_articles: {
+        Row: {
+          content: string
+          created_at: string
+          created_by: string
+          id: string
+          title: string
+          updated_at: string
+          workspace_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          created_by: string
+          id?: string
+          title: string
+          updated_at?: string
+          workspace_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          created_by?: string
+          id?: string
+          title?: string
+          updated_at?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "knowledge_articles_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      macro_suggestions: {
+        Row: {
+          article_id: string
+          category: string
+          content: string
+          created_at: string
+          id: string
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: Database["public"]["Enums"]["suggestion_status"]
+          suggested_by: string
+          title: string
+          workspace_id: string
+        }
+        Insert: {
+          article_id: string
+          category?: string
+          content: string
+          created_at?: string
+          id?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: Database["public"]["Enums"]["suggestion_status"]
+          suggested_by: string
+          title: string
+          workspace_id: string
+        }
+        Update: {
+          article_id?: string
+          category?: string
+          content?: string
+          created_at?: string
+          id?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: Database["public"]["Enums"]["suggestion_status"]
+          suggested_by?: string
+          title?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "macro_suggestions_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "knowledge_articles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "macro_suggestions_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       macros: {
         Row: {
           category: string
@@ -203,6 +446,11 @@ export type Database = {
       }
     }
     Enums: {
+      channel_type: "online" | "offline" | "external"
+      plan_status: "active" | "archived" | "plan2" | "cancelled"
+      schedule_status: "draft" | "confirmed"
+      shift_type: "morning" | "afternoon" | "evening"
+      suggestion_status: "pending" | "approved" | "rejected"
       workspace_role: "owner" | "admin" | "member"
     }
     CompositeTypes: {
@@ -331,6 +579,11 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      channel_type: ["online", "offline", "external"],
+      plan_status: ["active", "archived", "plan2", "cancelled"],
+      schedule_status: ["draft", "confirmed"],
+      shift_type: ["morning", "afternoon", "evening"],
+      suggestion_status: ["pending", "approved", "rejected"],
       workspace_role: ["owner", "admin", "member"],
     },
   },
